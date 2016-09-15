@@ -1,6 +1,7 @@
 *.pyc
 venv/
 python_lifx.egg-info/
+.gradle/
 
 # ignore vim files
 *.swp
