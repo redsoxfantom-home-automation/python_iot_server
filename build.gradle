@@ -12,5 +12,9 @@ ext.dependencies = ["automation-utilities", "python_lifx_sdk"]
 build {
    dependsOn copyDependencies
    dependsOn copySources
+   dependsOn createDockerContainer
+   
+   // Create a dependency tree of copySources->copyDependencies->createDockerContainer
    copyDependencies.mustRunAfter copySources
+   createDockerContainer.mustRunAfter copyDependencies
 }
