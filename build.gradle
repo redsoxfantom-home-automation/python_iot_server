@@ -10,7 +10,7 @@ ext.dependencies = ["automation-utilities", "python_lifx_sdk"]
 
 // Overwrite the build task in build.support
 build {
-   dependsOn copyDependencies   
-
-   println "Building"
+   dependsOn copyDependencies
+   dependsOn copySources
+   copyDependencies.mustRunAfter copySources
 }
