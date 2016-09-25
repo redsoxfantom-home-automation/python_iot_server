@@ -6,3 +6,6 @@ python_lifx.egg-info/
 # ignore vim files
 *.swp
 *.swo
+
+# ignore build outputs
+build/
