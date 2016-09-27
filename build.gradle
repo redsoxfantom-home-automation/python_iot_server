@@ -8,6 +8,11 @@ apply from: "..${File.separator}automation-utilities${File.separator}build.suppo
 // Define dependencies to copy over in the copyDependencies task
 ext.dependencies = ["automation-utilities", "python_lifx_sdk"]
 
+// Overwrite the run task in build.support
+run {
+   dependsOn runDockerContainer
+}
+
 // Overwrite the build task in build.support
 build {
    dependsOn copyDependencies
