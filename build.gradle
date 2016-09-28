@@ -17,11 +17,15 @@ run {
 build {
    dependsOn copyDependencies
    dependsOn copySources
-   dependsOn createDockerContainer
    dependsOn parseTemplates
 
-   // Create a dependency tree of copySources->copyDependencies->parseTemplates->createDockerContainer
+   // Create a dependency tree of copySources->copyDependencies->parseTemplates
    copyDependencies.mustRunAfter copySources
    parseTemplates.mustRunAfter copyDependencies
    createDockerContainer.mustRunAfter parseTemplates
+}
+
+// Creates a docker container
+deploy {
+   dependsOn createDockerContainer
 }
