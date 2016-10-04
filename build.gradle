@@ -22,10 +22,9 @@ build {
    // Create a dependency tree of copySources->copyDependencies->parseTemplates
    copyDependencies.mustRunAfter copySources
    parseTemplates.mustRunAfter copyDependencies
-   createDockerContainer.mustRunAfter parseTemplates
 }
 
-// Creates a docker container
-deploy {
-   dependsOn createDockerContainer
+// Creates an application that does not use Docker
+deployNativeApplication {
+
 }
