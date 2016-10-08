@@ -25,6 +25,14 @@ build {
 }
 
 // Creates an application that does not use Docker
-deployNativeApplication {
-
+deployNativeApplication << {
+	exec {
+		executable 'virtualenv'
+		args "${buildDir}${File.separator}venv"
+	}
+	exec {
+		executable "${buildDir}${File.separator}venv${File.separator}bin${File.separator}pip"
+		args=["install","-r","${buildDir}${File.separator}requirements.txt"]
+		workingDir "${buildDir}"
+	}
 }
