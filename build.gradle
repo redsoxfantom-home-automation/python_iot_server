@@ -8,11 +8,6 @@ apply from: "..${File.separator}automation-utilities${File.separator}build.suppo
 // Define dependencies to copy over in the copyDependencies task
 ext.dependencies = ["automation-utilities", "python_lifx_sdk"]
 
-// Overwrite the run task in build.support
-run {
-   dependsOn runDockerContainer
-}
-
 // Overwrite the build task in build.support
 build {
    dependsOn copyDependencies
@@ -22,6 +17,15 @@ build {
    // Create a dependency tree of copySources->copyDependencies->parseTemplates
    copyDependencies.mustRunAfter copySources
    parseTemplates.mustRunAfter copyDependencies
+}
+
+// Runs an application that does not use Docker
+runNativeApplication << {
+	exec {
+		executable "${buildDir}${File.separator}venv${File.separator}bin${File.separator}gunicorn"
+		workingDir "${buildDir}"
+		args=["-b", "0.0.0.0:5000", "app:app"]
+	}
 }
 
 // Creates an application that does not use Docker
