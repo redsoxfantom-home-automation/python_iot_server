@@ -21,10 +21,13 @@ build {
 
 // Runs an application that does not use Docker
 runNativeApplication << {
+	
+	Properties props = loadProperties()
+	
 	exec {
 		executable "${buildDir}${File.separator}venv${File.separator}bin${File.separator}gunicorn"
 		workingDir "${buildDir}"
-		args=["-b", "0.0.0.0:5000", "app:app"]
+		args=["-b", "0.0.0.0:${props.applicationPort}", "app:app"]
 	}
 }
 
