@@ -3,7 +3,7 @@
  * by 'tom' at '9/14/16 9:09 PM' with Gradle 2.10
  */
 // Import common tasks
-apply from: "..${File.separator}automation-utilities${File.separator}build.support.gradle"
+apply from: "..${File.separator}automation-utilities${File.separator}build${File.separator}build.support.gradle"
 
 // Define dependencies to copy over in the copyDependencies task
 ext.dependencies = ["automation-utilities", "python_lifx_sdk"]
