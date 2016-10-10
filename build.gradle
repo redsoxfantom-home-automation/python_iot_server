@@ -8,6 +8,9 @@ apply from: "..${File.separator}automation-utilities${File.separator}build${File
 // Define dependencies to copy over in the copyDependencies task
 ext.dependencies = ["automation-utilities", "python_lifx_sdk"]
 
+// Define executables that must be present on the system to do a native deploy and run
+ext.requiredNativeExecutables = ["virtualenv"]
+
 // Overwrite the build task in build.support
 build {
    dependsOn copyDependencies
