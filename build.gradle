@@ -53,3 +53,19 @@ deployNativeApplication << {
 		workingDir "${buildDir}"
 	}
 }
+
+// Terminates an application not using Docker
+terminateNativeApplication << {
+	try {
+		// Read the pid of the currently running process (started with daemonize)
+		String currentPid = new File("${buildDir}${File.separator}pid").text.trim();
+		
+		exec {
+			executable 'kill'
+			args=["-9",currentPid]
+		}
+	}
+	catch (Exception ex) {
+		println "Native application not currently running"
+	}
+}
