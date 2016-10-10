@@ -31,6 +31,7 @@ runNativeApplication << {
 		executable "${buildDir}${File.separator}venv${File.separator}bin${File.separator}gunicorn"
 		workingDir "${buildDir}"
 		args=["-b", "0.0.0.0:${props.applicationPort}", "app:app"]
+		environment=["ZK_HOST":"${props.zookeeperHost}","ZK_PORT":"${props.zookeeperPort}"]
 	}
 }
 
