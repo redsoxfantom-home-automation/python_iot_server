@@ -9,7 +9,7 @@ apply from: "..${File.separator}automation-utilities${File.separator}build${File
 ext.dependencies = ["automation-utilities", "python_lifx_sdk"]
 
 // Define executables that must be present on the system to do a native deploy and run
-ext.requiredNativeExecutables = ["virtualenv"]
+ext.requiredNativeExecutables = ["virtualenv","daemonize"]
 
 // Overwrite the build task in build.support
 build {
@@ -28,10 +28,16 @@ runNativeApplication << {
 	Properties props = loadProperties()
 	
 	exec {
-		executable "${buildDir}${File.separator}venv${File.separator}bin${File.separator}gunicorn"
+		executable "daemonize"
 		workingDir "${buildDir}"
-		args=["-b", "0.0.0.0:${props.applicationPort}", "app:app"]
-		environment=["ZK_HOST":"${props.zookeeperHost}","ZK_PORT":"${props.zookeeperPort}"]
+		args=["-E", "ZK_HOST", "${props.zookeeperHost}",
+			  "-E", "ZK_PORT", "${props.zookeeperPort}",
+			  "-e", "${buildDir}${File.separator}err",
+			  "-o", "${buildDir}${File.separator}out",
+			  "-p", "${buildDir}${File.separator}pid",
+			  "${buildDir}${File.separator}venv${File.separator}bin${File.separator}gunicorn",
+			  "-b", "0.0.0.0:${props.applicationPort}",
+			  "app:app"]
 	}
 }
 
