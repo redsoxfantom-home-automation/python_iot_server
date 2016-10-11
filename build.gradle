@@ -59,7 +59,7 @@ terminateNativeApplication << {
 	try {
 		// Read the pid of the currently running process (started with daemonize)
       String home = System.getProperty("user.home")
-		String currentPid = new File(${home}${File.separator}.home_automation${File.separator}${project.name}${File.separator}pid").text.trim();
+		String currentPid = new File("${home}${File.separator}.home_automation${File.separator}${project.name}${File.separator}pid").text.trim();
 		
 		exec {
 			executable 'kill'
