@@ -26,15 +26,15 @@ build {
 runNativeApplication << {
 	
 	Properties props = loadProperties()
-   String home = System.getProperty("user.home")	
+	String home = getProjectDirectory()
 	exec {
 		executable "daemonize"
 		workingDir "${buildDir}"
 		args=["-E", "ZK_HOST=${props.zookeeperHost}",
 			  "-E", "ZK_PORT=${props.zookeeperPort}",
-			  "-e", "${home}${File.separator}.home_automation${File.separator}${project.name}${File.separator}err",
-			  "-o", "${home}${File.separator}.home_automation${File.separator}${project.name}${File.separator}out",
-			  "-p", "${home}${File.separator}.home_automation${File.separator}${project.name}${File.separator}pid",
+			  "-e", "${home}${File.separator}err",
+			  "-o", "${home}${File.separator}out",
+			  "-p", "${home}${File.separator}pid",
 			  "${buildDir}${File.separator}venv${File.separator}bin${File.separator}gunicorn",
 			  "-b", "0.0.0.0:${props.applicationPort}",
 			  "app:app"]
@@ -58,8 +58,8 @@ deployNativeApplication << {
 terminateNativeApplication << {
 	try {
 		// Read the pid of the currently running process (started with daemonize)
-      String home = System.getProperty("user.home")
-		String currentPid = new File("${home}${File.separator}.home_automation${File.separator}${project.name}${File.separator}pid").text.trim();
+		String home = getProjectDirectory()
+		String currentPid = new File("${home}${File.separator}pid").text.trim();
 		
 		exec {
 			executable 'kill'
