@@ -65,6 +65,8 @@ terminateNativeApplication << {
 			executable 'kill'
 			args=["-9",currentPid]
 		}
+		
+		delete "${home}${File.separator}pid"
 	}
 	catch (Exception ex) {
 		println "Native application not currently running"
