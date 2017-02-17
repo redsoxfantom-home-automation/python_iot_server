@@ -5,6 +5,7 @@ bp = Blueprint('api_1_0_Blueprint',__name__)
 
 @bp.route('/lights')
 def get_lights():
+  print "Received request to get all lights"
   lights = lifx_helper.get_all_lights()
   return json.jsonify([light.__dict__ for light in lights])
 
@@ -21,5 +22,6 @@ def handle_get_light(light_id):
    return json.jsonify(light.__dict__)
 
 def handle_post_light(light_id,post_data):
+   print "Got Post with data: %s" % post_data.__dict__
    lifx_helper.update_light(light_id,post_data)
    return "",202
