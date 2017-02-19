@@ -16,9 +16,4 @@ dns.register_service("1.0","lights",str(config_data["port"]))
 
 app = Flask(__name__)
 app.register_blueprint(api_1_0.bp, url_prefix='/1.0')
-formatter = logging.Formatter("%(levelname)s : [%(module)s] : %(message)s")
-stdOutHandler = logging.StreamHandler(sys.stdout)
-stdOutHandler.setFormatter(formatter)
-app.logger.addHandler(stdOutHandler)
-app.logger.setLevel(logging.DEBUG)
-
+logging.basicConfig(format="%(levelname)s [%(module)s] : %(message)s", level=logging.DEBUG)
