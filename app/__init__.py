@@ -5,15 +5,20 @@ import logging
 import os
 import sys
 
+# setup logger
+logging.basicConfig(format="%(levelname)s [%(module)s] : %(message)s", level=logging.DEBUG)
+
 # load configuration to tell us what port to use
 root = os.path.realpath(os.path.dirname(__file__))
 config_location = os.path.join(root,"config.json")
 config_data = json.load(open(config_location))
+logging.info("Successfully loaded config")
 
 dns = ServiceAccessor()
 dns.connect()
 dns.register_service("1.0","lights",str(config_data["port"]))
+logging.info("Successfully registered with service accessor. Port number: %s" % config_data['port'])
 
 app = Flask(__name__)
 app.register_blueprint(api_1_0.bp, url_prefix='/1.0')
-logging.basicConfig(format="%(levelname)s [%(module)s] : %(message)s", level=logging.DEBUG)
+logging.info("Successfully registered api_1_0 at /1.0")
