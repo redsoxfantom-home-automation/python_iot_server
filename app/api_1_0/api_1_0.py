@@ -14,18 +14,16 @@ def get_lights():
 
 @bp.route('/lights/<int:light_id>', methods = ['GET','POST'])
 def individual_light(light_id):
-   logging.info("Got request for light id %s with method %s" % (light_id, request.methog))
+   logging.info("Got request for light id %s with method %s and data %s" % (light_id, request.method, request.data))
    if request.method == 'GET':
       return handle_get_light(light_id)
    if request.method == 'POST':
-      print request.form.__dict__
-      return handle_post_light(light_id,request.form)
+      return handle_post_light(light_id,request.get_json(force=True))
 
 def handle_get_light(light_id):
    light = lifx_helper.get_light(light_id)
    return json.jsonify(light.__dict__)
 
 def handle_post_light(light_id,post_data):
-   logging.info("Got Post with data: %s" % post_data.__dict__)
    lifx_helper.update_light(light_id,post_data)
    return "",202

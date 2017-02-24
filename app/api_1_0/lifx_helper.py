@@ -61,7 +61,7 @@ def get_light(light_id):
 
 def update_light(light_id,attributes):
    l = client.by_id(light_id)
-   
+   logging.info("Got request to update light with attributes %s" % attributes)
    hue = l.color.hue
    brightness = l.color.brightness
    saturation = l.color.saturation
@@ -69,16 +69,22 @@ def update_light(light_id,attributes):
 
    for key in attributes:
       if(key == 'label'):
+         logging.info("Updating light label to %s" % attributes[key])
          l.label = attributes[key]
       if(key == 'power'):
-         l.power = (attributes[key] == 'True')
+         logging.info("Updating light power to %s" % attributes[key])
+         l.power = attributes[key]
       if(key == 'brightness'):
+         logging.info("Updating light brightness to %s" % attributes[key])
          brightness = float(attributes[key])
       if(key == 'hue'):
+         logging.info("Updating light hue to %s" % attributes[key])
          hue = float(attributes[key])
       if(key == 'kelvin'):
+         logging.info("Updating light kelvin to %s" % attributes[key])
          kelvin = int(attributes[key])
       if(key == 'saturation'):
+         logging.info("Updating light saturation to %s" % attributes[key])
          saturation = float(attributes[key])
 
    new_color = HSBK(hue,saturation,brightness,kelvin)
