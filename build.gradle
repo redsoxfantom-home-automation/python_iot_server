@@ -30,9 +30,7 @@ runNativeApplication << {
 	exec {
 		executable "daemonize"
 		workingDir "${buildDir}"
-		args=["-E", "ZK_HOST=${props.zookeeperHost}",
-			  "-E", "ZK_PORT=${props.zookeeperPort}",
-			  "-e", "${home}${File.separator}err",
+		args=["-e", "${home}${File.separator}err",
 			  "-o", "${home}${File.separator}out",
 			  "-p", "${home}${File.separator}pid",
 			  "${buildDir}${File.separator}venv${File.separator}bin${File.separator}gunicorn",
