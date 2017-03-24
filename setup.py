@@ -36,5 +36,5 @@ setup(
 	
 	package_data={'data':['products.json']},
 
-	install_requires=['flask','gunicorn'],
+	install_requires=['flask','gunicorn','ouimeaux'],
 )
