@@ -2,12 +2,19 @@ from flask import Blueprint,json,request
 import lifx_helper
 import logging
 from .. import socketio
+import time
+import threading
 
 bp = Blueprint('api_1_0_Blueprint',__name__)
 
 @socketio.on('connect')
 def handle_connect():
-   logging.info("connection")
+   logging.info("Client connected to websocket")
+
+@socketio.on('get_all_lights')
+def handle_socket_get_lights():
+   light_data = get_lights()
+   socketio.emit('get_all_lights_response','%s' % light_data.__dict__)
 
 @bp.route('/lights')
 def get_lights():
@@ -32,3 +39,15 @@ def handle_get_light(light_id):
 def handle_post_light(light_id,post_data):
    lifx_helper.update_light(light_id,post_data)
    return "",202
+
+def light_update_thread():
+   logging.info("Light update thread active")
+   while True:
+      lights = lifx_helper.get_all_lights()
+      light_data = [light.__dict__ for light in lights]
+      socketio.emit('light_update',light_data,broadcast=True)
+      time.sleep(5)
+
+t = threading.Thread(target=light_update_thread)
+t.daemon = True
+t.start()
