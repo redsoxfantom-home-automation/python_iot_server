@@ -1,8 +1,13 @@
 from flask import Blueprint,json,request
 import lifx_helper
 import logging
+from .. import socketio
 
 bp = Blueprint('api_1_0_Blueprint',__name__)
+
+@socketio.on('connect')
+def handle_connect():
+   logging.info("connection")
 
 @bp.route('/lights')
 def get_lights():

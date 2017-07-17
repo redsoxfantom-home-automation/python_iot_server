@@ -3,4 +3,8 @@ RUN apt-get update && apt-get install -y python python-pip
 ADD . /python_lifx_server
 RUN cd python_lifx_server &&  pip install -r requirements.txt
 EXPOSE ${applicationPort}
-CMD ["/usr/local/bin/gunicorn", "-b", "0.0.0.0:${applicationPort}", "app:app"]
+CMD ["/usr/local/bin/gunicorn", 
+     "--worker-class", "eventlet",
+     "-w", "1",
+     "-b", "0.0.0.0:${applicationPort}", 
+     "app:app"]

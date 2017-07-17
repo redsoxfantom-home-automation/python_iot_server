@@ -1,6 +1,6 @@
 from flask import Flask, json
+from flask_socketio import SocketIO
 from python_utils.zookeeper import ServiceAccessor
-from app.api_1_0 import api_1_0
 import logging
 import os
 import sys
@@ -30,5 +30,11 @@ dns.register_service("1.0","switches",str(config_data["port"]))
 logging.info("Successfully registered with service accessor. Port number: %s" % config_data['port'])
 
 app = Flask(__name__)
-app.register_blueprint(api_1_0.bp, url_prefix='/1.0')
 logging.info("Successfully registered api_1_0 at /1.0")
+socketio = SocketIO(app)
+from app.api_1_0 import api_1_0
+app.register_blueprint(api_1_0.bp, url_prefix='/1.0')
+logging.info("Successfully initialized socketio connection")
+
+if __name__ == "__main__":
+   socketio.run(app)
