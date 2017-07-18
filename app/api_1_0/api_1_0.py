@@ -10,6 +10,9 @@ bp = Blueprint('api_1_0_Blueprint',__name__)
 @socketio.on('connect')
 def handle_connect():
    logging.info("Client connected to websocket")
+   lights = lifx_helper.get_all_lights()
+   light_data = [light.__dict__ for light in lights]
+   socketio.emit('light_update',light_data)
 
 @socketio.on('get_all_lights')
 def handle_socket_get_lights():
