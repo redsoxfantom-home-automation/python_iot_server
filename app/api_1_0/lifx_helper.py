@@ -1,24 +1,14 @@
 import lifx
 import logging
+import os
+from flask import json
 from lifx.color import HSBK
 
 client = lifx.Client()
 
-known_bulbs = [
-   {
-      'vid':1,
-      'name':'LIFX',
-      'products':[
-         {
-            'pid':1,
-            'name':'Original 1000',
-            'features': {
-               'color':True
-            }
-         }
-      ]
-   }
-]
+root = os.path.realpath(os.path.dirname(__file__))
+config_location = os.path.join(root,"bulbs.json")
+known_bulbs = json.load(open(config_location))
 
 class lightJsonClass(object):
    def __init__(self,light):
