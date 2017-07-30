@@ -1,5 +1,6 @@
 from flask import Blueprint,json,request
 import lifx_helper
+import wemo_helper
 import logging
 from .. import socketio
 import time
@@ -35,6 +36,14 @@ def individual_light(light_id):
    if request.method == 'POST':
       return handle_post_light(light_id,request.get_json(force=True))
 
+@bp.route('/switches')
+def get_switches():
+    logging.info("Received request to get all switches")
+    switches = wemo_helper.get_all_switches()
+    switch_data = json.jsonify([switch.__dict__ for switch in switches])
+    logging.debug("Will return the following switches: %s" % switch_data.__dict__)
+    return switch_data
+
 def handle_get_light(light_id):
    light = lifx_helper.get_light(light_id)
    return json.jsonify(light.__dict__)
@@ -54,3 +63,7 @@ def light_update_thread():
 t = threading.Thread(target=light_update_thread)
 t.daemon = True
 t.start()
+
+wemo_t = threading.Thread(target=wemo_helper.run_discovery)
+wemo_t.daemon = True
+wemo_t.start()
