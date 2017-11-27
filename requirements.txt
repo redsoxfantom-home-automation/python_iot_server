@@ -1,3 +1,4 @@
 -e ./automation-utilities/python_utils
 -e ./python_lifx_sdk
 -e .
+https://github.com/eventlet/eventlet/archive/master.zip

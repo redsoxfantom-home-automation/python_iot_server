@@ -36,5 +36,5 @@ setup(
 	
 	package_data={'data':['products.json']},
 
-	install_requires=['flask','gunicorn==18.0','ouimeaux','flask-socketio','eventlet'],
+	install_requires=['flask','gunicorn==18.0','ouimeaux','flask-socketio'],
 )
