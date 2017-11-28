@@ -20,5 +20,5 @@ def get_all_switches():
 
 def run_discovery():
     env = Environment(on_switch)
-    env.start()
-    env.discover(seconds = 5)
+    #env.start()
+    #env.discover(seconds = 5)

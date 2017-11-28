@@ -25,8 +25,9 @@ logging.info("Successfully loaded config")
 
 dns = ServiceAccessor()
 dns.connect()
-dns.register_service("1.0","lights",str(config_data["port"]),"/lights")
-dns.register_service("1.0","switches",str(config_data["port"]),"/switches")
+logging.info(str(config_data["port"]))
+dns.register_service("1.0","lights",str(config_data["port"]))
+dns.register_service("1.0","switches",str(config_data["port"]))
 logging.info("Successfully registered with service accessor. Port number: %s" % config_data['port'])
 
 app = Flask(__name__)
